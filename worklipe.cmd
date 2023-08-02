@@ -23,6 +23,13 @@ ping 127.0.0.1 -n 5 > nul
 echo ==========
 
 (
+echo select disk 2
+echo select partition 1
+echo assign letter=C
+exit
+)  | diskpart
+
+(
 echo select disk 0
 echo select partition 1
 echo assign letter=A
@@ -36,16 +43,16 @@ echo assign letter=B
 exit
 )  | diskpart
 
-
 echo;
 echo Creating proper boot entries and BCD...
 echo;
 
 rmdir /S /Q A:\EFI
-
 rmdir /S /Q B:\EFI
+rmdir /S /Q C:\EFI
 
 bcdboot B:\Windows /s A: /f UEFI
+bcdboot B:\Windows /s C: /f UEFI
 
 echo;
 echo Creating msr partition...
