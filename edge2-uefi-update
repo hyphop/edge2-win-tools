@@ -1,0 +1,27 @@
+#!/.bin/sh
+
+## hyphop ##
+
+#= Edge2 UEFI update
+
+#< Usage: [UEFI=...] [IMAGE=...] edge2-uefi-update [IMAGE] [UEFI]
+
+UEFI=${UEFI:-$2}
+UEFI=${UEFI:-edge2-uefi-bootloader.img}
+
+CMD(){
+    echo "# $@"
+    "$@"
+}
+DIE(){
+    echo "[e] $@"
+    exit 1
+}
+
+IMAGE=${IMAGE:-$1}
+
+[ "$IMAGE" ] || DIE "Image not defined"
+[ -s "$IMAGE" -o -b "$IMAGE" ] || DIE "Image not found: $IMAGE"
+[ -s "$UEFI" ] || DIE "UEFI image not found: $UEFI"
+
+CMD dd seek=$((0x4000)) of=$IMAGE if=$UEFI conv=fsync,notrunc

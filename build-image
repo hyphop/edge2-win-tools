@@ -1,0 +1,30 @@
+#!/bin/sh
+
+## hyphop ##
+
+CMD2(){
+    echo "$@">&2
+    "$@" || exit
+}
+
+IMG=${IMG:-edge2-win-install-arm.img}
+
+losetup -j $IMG
+
+DEVICE=$(losetup -ONAME -n -j $IMG)
+
+echo DEV: $DEVICE
+
+#cd workli
+
+worklitmp=~/edge2-win-files
+
+echo $worklitmp
+
+CMD2 sudo \
+    worklitmp=$worklitmp \
+    IMAGE=$IMG \
+    uselocal=1 \
+    disk=${DEVICE##*/} \
+    bash ./workli-mod.sh
+

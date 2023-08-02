@@ -1,0 +1,19 @@
+#!/bin/sh
+
+## hyphop ##
+
+#= build edge2 windows install image
+
+IMG=${IMG:-edge2-win-install-arm.img}
+BLOCKS=61071360
+BLOCKS=60000000
+SIZE=$((BLOCKS*512))
+SIZE=21G
+#         32768 reserve etc ..
+BS=512
+truncate -s$SIZE $IMG
+losetup -f $IMG || exit
+losetup -ONAME -n -j $IMG
+DEVICE=$(losetup -ONAME -n -j $IMG)
+echo IMAGE: $IMG - $SIZE
+echo $DEVICE

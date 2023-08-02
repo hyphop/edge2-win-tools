@@ -1,0 +1,11 @@
+#!/bin/sh
+
+## hyphop ##
+
+#= build edge2 windows install image
+
+# 32GB 
+IMG=${IMG:-edge2-win-install-arm.img}
+DEVICE=$(losetup -ONAME -n -j $IMG)
+echo $DEVICE
+

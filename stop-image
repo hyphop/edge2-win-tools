@@ -1,0 +1,13 @@
+#!/bin/sh
+
+## hyphop ##
+
+#= stop loop image
+
+IMG=${IMG:-edge2-win-install-arm.img}
+losetup -ONAME -n -j $IMG
+DEVICE=$(losetup -ONAME -n -j $IMG)
+echo IMAGE: $IMG
+[ "$DEVICE" ] || exit 0
+echo STOP: $DEVICE
+losetup -d $DEVICE

@@ -1,0 +1,61 @@
+#!/.bin/sh
+
+## hyphop ##
+
+#= Edge2 extract UBOOT image
+
+SRC=${SRC:-edge2_UEFI_Release_v0.7.1.img}
+#SRC=${SRC:-edge2_UEFI_Release_3676af4b.img}
+
+IMAGE=${IMAGE:-edge2-uefi-bootloader.img}
+
+SK=2048
+BS=512
+
+CMD(){
+    echo "# $@"
+    "$@"
+}
+DIE(){
+    echo "[e] $@"
+    exit 1
+}
+dtb2dts(){
+    dd skip=$SK count=32 if=$SRC status=none 2>/dev/null | dtc -I dtb
+}
+
+dts2val(){
+    local v=$(grep "$@")
+    v=${v##*<}
+    echo ${v%%>*}
+}
+
+[ "$SRC" ] || DIE "Image not defined"
+[ -s "$SRC" ] || DIE "Image not found: $SRC"
+
+dtb2dts >/dev/null || exit # check
+dtb2dts | grep -B66 -m1 images | grep \;
+
+ST=$(dtb2dts | dts2val totalsize)
+SX=$((ST%BS+ST))
+SB=$((SX/BS))
+
+echo SIZE: $ST == $((ST)) : $SB == $SX
+
+LS=$(dtb2dts | dts2val data-size)
+LO=$(dtb2dts | dts2val -e data-offset -e data-position)
+SS=$((LO+LS))
+SA=$((SS%BS+SS))
+SZ=$((SA/BS))
+
+printf "LAST: %s(%s - 0x%X) < %s < 0x%X\n" $SA $SZ $SZ $SS $SS
+
+CMD dd skip=$SK count=$SB of=$IMAGE if=$SRC conv=fsync,notrunc
+
+dtc $IMAGE | grep -e "{" -e data | grep -v -e hash -e signature -e "conf "
+
+hexdump -C $IMAGE | tail
+
+md5sum $IMAGE
+
+file $IMAGE
