@@ -31,4 +31,4 @@ echo start=$OF, type=e
 
 sfdisk --dump $IMG
 
-rsync -avzz --inplace $IMG root@dev-helper.local:/tmp/mounts/dev-helper/images/
+[ "$SYNC" ] && CMD rsync -avzz --inplace $IMG root@dev-helper.local:/tmp/mounts/dev-helper/images/
