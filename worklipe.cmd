@@ -1,33 +1,14 @@
-@echo off
-
 echo Edge2 prepearing
 echo Note: may take some time for diskpart to start, please wait...
 
-(
-echo list disk
-) | diskpart
-
-
-dir X:\driverpackage
-
-pnputil.exe /add-driver "X:\driverpackage\dwcsdhc\*.inf" /subdirs /install
-
-ping 127.0.0.1 -n 5 > nul
+:: pnputil.exe /add-driver "X:\driverpackage\dwcsdhc\dwcsdhc.inf" /install
 
 (
 echo list disk
 ) | diskpart
-
-ping 127.0.0.1 -n 5 > nul
 
 echo ==========
-
-(
-echo select disk 2
-echo select partition 1
-echo assign letter=C
-exit
-)  | diskpart
+ping 127.0.0.1 -n 5 1>nul
 
 (
 echo select disk 0
@@ -49,10 +30,8 @@ echo;
 
 rmdir /S /Q A:\EFI
 rmdir /S /Q B:\EFI
-rmdir /S /Q C:\EFI
 
 bcdboot B:\Windows /s A: /f UEFI
-bcdboot B:\Windows /s C: /f UEFI
 
 echo;
 echo Creating msr partition...
@@ -75,16 +54,21 @@ echo set id=C12A7328-F81F-11D2-BA4B-00A0C93EC93B override
 exit
 )  | diskpart
 
+echo Inject eMMC driver...
+Dism /Image:B: /Add-Driver /Driver:"X:\driverpackage\dwcsdhc\dwcsdhc.inf"
+
 echo;
 echo Restoring old winre...
 echo;
 
 del B:\Windows\System32\Recovery\winre.wim
-
 copy B:\Windows\System32\Recovery\backup-winre.wim B:\Windows\System32\Recovery\winre.wim
 
 echo;
-echo Configuring finnished, rebooting...
+echo Configuring finnished, rebooting after 5 sec...
 echo;
+
+echo ==========
+ping 127.0.0.1 -n 5 1>nul
 
 :end
