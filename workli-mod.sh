@@ -7,6 +7,8 @@
 
 worklitmp=${worklitmp:-/tmp/workli}
 
+DIR=$PWD
+
 echo "TMP-DIR: $worklitmp"
 
 # uncomment for using local files instead of auto download (use alongside $cache after first run to use cached files from previous runs)
@@ -26,7 +28,8 @@ export uefntf="$worklitmp/bootaa64.efi"
 export uefntfd="$worklitmp/ntfs_aa64.efi" 
 
 # https://github.com/buddyjojo/workli/tree/master/files
-export pei="$worklitmp/worklipe.cmd"
+#export pei="$worklitmp/worklipe.cmd"
+export pei="$DIR/worklipe.cmd"
 export bexec="$worklitmp/batchexec.exe" # ^
 export bcd="$worklitmp/BCD" # ^
 
@@ -108,7 +111,7 @@ else
     "https://github.com/buddyjojo/workli/releases/latest/download/y-pe-files.zip" \
     || FAIL "Failed to download y-pe-files.zip from buddyjojo/workli"
 
-    unzip -o "$filepefiles" -d "$worklitmp/"
+    unzip -o "$filepefiles" BCD batchexec.exe -d "$worklitmp/"
 
     gitjson=$(curl -L https://api.github.com/repos/edk2-porting/edk2-rk35xx/releases/latest)
     efiFILE=$(echo $gitjson | jq -r '.assets[] | .name' | grep edge2)
@@ -186,13 +189,13 @@ export esdpth="$worklitmp"
 
 iso="$esdpth/win.esd"
 
-[ -f $iso ] && \
+[ -f "$iso" ] && \
 CMD2 chmod 0777 $iso
 
-[ -f $iso.aria2 ] && \
+[ -f "$iso.aria2" ] && \
 CMD2 chmod 0777 $iso.aria2
 
-[ -f "$iso" ] && [ -f "$iso.aria2" ] && {
+[ -f "$iso.aria2" -o ! -f "$iso" ] && {
     CMD2 aria2c -d "$esdpth" -o "win.esd" "$esdurl"
 }
 
@@ -253,6 +256,11 @@ wintype=$(echo "$typexml" | xmlstarlet sel -t -v "/WIM/IMAGE[NAME='$windtype']/@
 
 debug "wintype(index) is $wintype"
 
+[ "$disk" ] || {
+    debug "Prepare stage is done, need setup disk"
+    exit 0
+}
+
 if [[ $disk == *"mmcblk"* ]]; then
     export nisk="${disk}p"
 else
@@ -274,7 +282,7 @@ fi
 if [[ -b "/dev/$disk" ]]; then
    debug "$disk found"
 else
-   error "$disk does not exist."
+   error "DISK $disk does not exist."
 fi
 
 #(
