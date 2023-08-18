@@ -48,10 +48,9 @@ WIP: .... testing .....
 
 + http://dl.khadas.com/.test/edge2/windows/
 
-
-    wget http://dl.khadas.com/.test/edge2/windows/edge2-win-install-arm.img.zst
-    zstd -dc edge2-win-install-arm.img.zst > /dev/sdX
-
+```wget http://dl.khadas.com/.test/edge2/windows/edge2-win-install-arm.img.zst
+zstd -dc edge2-win-install-arm.img.zst > /dev/sdX
+```
 
 \#\# hyphop \#\#
 
