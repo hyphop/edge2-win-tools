@@ -26,7 +26,7 @@ WIP: .... testing .....
 
 # Limitation
 
-    * Boot only from USB
++ Boot only from USB
 
 # Clean Up
 
@@ -42,7 +42,7 @@ WIP: .... testing .....
 
 ## Install UEFI to eMMC
 
-    https://docs.khadas.com/products/sbc/edge2/troubleshooting/edge2-uboot-uefi
++ https://docs.khadas.com/products/sbc/edge2/troubleshooting/edge2-uboot-uefi
 
 \#\# hyphop \#\#
 
