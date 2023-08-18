@@ -2,6 +2,8 @@
 
 ## hyphop ##
 
+#= build windows install image Edge2 arm64
+
 CMD2(){
     echo "$@">&2
     "$@" || exit
@@ -14,8 +16,6 @@ losetup -j $IMG
 DEVICE=$(losetup -ONAME -n -j $IMG)
 
 echo DEV: $DEVICE
-
-#cd workli
 
 worklitmp=~/edge2-win-files
 
