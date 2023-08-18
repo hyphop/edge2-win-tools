@@ -12,6 +12,10 @@ WIP: .... testing .....
 
     ./prepare-image
 
+# Prepeare deps
+
+    ./build-prepare
+
 # Build image
 
     ./build-image
