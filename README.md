@@ -34,6 +34,16 @@ WIP: .... testing .....
     rm edge2-win-install-arm.img # remove image
     rm -rf ~/edge2-win-files     # remove cached files (optional)
 
+# For Developers
+
+## Delete Windows from eMMC - fast way
+
+    sfdisk --delete /dev/mmcblk0
+
+## Install UEFI to eMMC
+
+    https://docs.khadas.com/products/sbc/edge2/troubleshooting/edge2-uboot-uefi
+
 \#\# hyphop \#\#
 
 
