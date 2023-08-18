@@ -24,6 +24,10 @@ WIP: .... testing .....
 
     pv edge2-win-install-arm.img > /dev/sdX
 
+# Limitation
+
+    * Boot only from USB
+
 \#\# hyphop \#\#
 
 
