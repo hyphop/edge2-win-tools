@@ -57,6 +57,11 @@ exit
 echo Inject eMMC driver...
 Dism /Image:B: /Add-Driver /Driver:"X:\driverpackage\dwcsdhc\dwcsdhc.inf"
 
+:: https://www.elevenforum.com/t/what-is-oobe-bypassnro.5011/
+:: https://www.tenforums.com/tutorials/95002-dism-edit-registry-offline-image.html
+:: reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OOBE /v BypassNRO /t REG_DWORD /d 1 /f
+:: shutdown /r /t 0
+
 echo;
 echo Restoring old winre...
 echo;
@@ -67,6 +72,7 @@ copy B:\Windows\System32\Recovery\backup-winre.wim B:\Windows\System32\Recovery\
 echo;
 echo Configuring finnished, rebooting after 5 sec...
 echo;
+
 
 echo ==========
 ping 127.0.0.1 -n 5 1>nul
