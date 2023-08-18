@@ -28,6 +28,12 @@ WIP: .... testing .....
 
     * Boot only from USB
 
+# Clean Up
+
+    ./stop-image                 # unloop image
+    rm edge2-win-install-arm.img # remove image
+    rm -rf ~/edge2-win-files     # remove cached files (optional)
+
 \#\# hyphop \#\#
 
 
