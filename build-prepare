@@ -1,0 +1,37 @@
+#!/bin/sh
+
+## hyphop ##
+
+#= prepare
+
+CMD2(){
+    echo "$@">&2
+    "$@" || exit
+}
+
+worklitmp=~/edge2-win-files
+
+CMD2 mkdir -p "$worklitmp"/driverpackage
+
+D1=dwcsdhc.zip
+(
+cd "$worklitmp"/driverpackage
+
+[ -s "$D1.md5sum" ] || {
+wget -c https://github.com/worproject/Rockchip-Windows-Drivers/files/11454708/$D1 && \
+    md5sum $D1 > $D1.md5sum
+}
+
+[ -d dwcsdhc ]  || {
+unzip $D1
+cabextract dwcsdhc.cab
+mv driver dwcsdhc
+rm *.cab *.zip
+}
+)
+
+CMD2 sudo \
+    worklitmp=$worklitmp \
+    bash ./workli-mod.sh
+
+echo "Next step is ./build-image"
