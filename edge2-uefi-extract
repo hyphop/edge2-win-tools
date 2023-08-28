@@ -1,11 +1,10 @@
-#!/.bin/sh
+#!/bin/bash
 
 ## hyphop ##
 
 #= Edge2 extract UBOOT image
 
-SRC=${SRC:-edge2_UEFI_Release_v0.7.1.img}
-#SRC=${SRC:-edge2_UEFI_Release_3676af4b.img}
+SRC=${SRC:-$1}
 
 IMAGE=${IMAGE:-edge2-uefi-bootloader.img}
 
