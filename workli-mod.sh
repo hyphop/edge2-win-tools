@@ -21,6 +21,7 @@ echo "TMP-DIR: $worklitmp"
 export spload="$worklitmp/rk3588_spl_loader_v1.08.111.bin"
 # https://github.com/edk2-porting/edk2-rk35xx/releases
 export efi="$worklitmp/RK3588_NOR_FLASH_REL.img" 
+export efiURL=${efiURL:-https://github.com/edk2-porting/edk2-rk3588/suites/15541896185/artifacts/886911610}
 
 # https://github.com/pbatard/uefi-ntfs/releases
 export uefntf="$worklitmp/bootaa64.efi"
@@ -113,10 +114,14 @@ else
 
     unzip -o "$filepefiles" BCD batchexec.exe -d "$worklitmp/"
 
-    gitjson=$(curl -L https://api.github.com/repos/edk2-porting/edk2-rk35xx/releases/latest)
+    UEFI_LATEST=https://api.github.com/repos/edk2-porting/edk2-rk35xx/releases/latest
+
+    [ "$efiURL" ] || {
+    gitjson=$(curl -L "$UEFI_LATEST")
     efiFILE=$(echo $gitjson | jq -r '.assets[] | .name' | grep edge2)
     echo $efiFILE
     efiURL=$(echo $gitjson | jq --arg efifile "$efiFILE" -r '.assets[] | select( .name | match($efifile)) | .browser_download_url ') #'
+    }
 
     CMD wget -O "$efi" "$efiURL" \
 	|| FAIL "Failed to download RK3588_NOR_FLASH_REL.img"
