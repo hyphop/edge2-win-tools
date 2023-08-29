@@ -52,6 +52,9 @@ Simple scripts for build Windows ARM installation disk for Khadas Edge2 http://d
 wget http://dl.khadas.com/products/edge2/firmware/.windows/edge2-windows-11-arm.img.zst
 zstd -dc edge2-win-install-arm.img.zst > /dev/sdX && sync
 ```
+## Problems
+
+During 1st time Windows Setup ''Shift+F10'' type ''oobe\bypassnro'' press Enter to reboot and skip network request
 
 ## Links
 
