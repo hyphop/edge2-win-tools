@@ -54,7 +54,7 @@ zstd -dc edge2-win-install-arm.img.zst > /dev/sdX && sync
 ```
 ## Problems
 
-During 1st time Windows Setup ''Shift+F10'' type ''oobe\bypassnro'' press Enter to reboot and skip network request
+During 1st time Windows Setup ``Shift+F10`` type ``oobe\bypassnro`` press Enter to reboot and skip network request
 
 ## Links
 
