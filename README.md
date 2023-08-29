@@ -1,34 +1,37 @@
 # edge2-win-tools
 
-WIP: .... testing .....
+Simple scripts for build Windows ARM installation disk for Khadas Edge2 http://docs.khadas.com/edge2
 
-# Init
+## Init
 
     cd ~
     git clone https://github.com/hyphop/edge2-win-tools
     cd edge2-win-tools
 
-# Create blank image
+## Create blank image
 
     ./prepare-image
 
-# Prepeare deps
+## Prepeare deps
 
     ./build-prepare
 
-# Build image
+## Build image
 
     ./build-image
 
-# Write image to Disk
+## Write image to Disk
 
     pv edge2-win-install-arm.img > /dev/sdX && sync
 
-# Clean Up
+## Clean Up
 
     ./stop-image                 # unloop image
     rm edge2-win-install-arm.img # remove image
     rm -rf ~/edge2-win-files     # remove cached files (optional)
+
+## Problems
+
 
 # For Developers
 
@@ -39,15 +42,21 @@ WIP: .... testing .....
 ## Install UEFI to eMMC
 
 + https://docs.khadas.com/products/sbc/edge2/troubleshooting/edge2-uboot-uefi
++ https://docs.khadas.com/software/oowow/how-to/online-scripts
 
 ## Download pre build image
 
-+ http://dl.khadas.com/.test/edge2/windows/
++ http://dl.khadas.com/products/edge2/firmware/.windows/
 
 ```
-wget http://dl.khadas.com/.test/edge2/windows/edge2-win-install-arm.img.zst
+wget http://dl.khadas.com/products/edge2/firmware/.windows/edge2-windows-11-arm.img.zst
 zstd -dc edge2-win-install-arm.img.zst > /dev/sdX && sync
 ```
+
+## Links
+
++ https://docs.khadas.com/products/sbc/edge2/troubleshooting/windows-install
++ https://docs.khadas.com/products/sbc/edge2/troubleshooting/edge2-uboot-uefi
 
 \#\# hyphop \#\#
 
